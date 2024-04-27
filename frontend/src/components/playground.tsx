@@ -5,9 +5,8 @@ import {
   LifeBuoy,
   Settings,
   Settings2,
-  SquareTerminal,
   SquareUser,
-  Triangle,
+  Binary,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -23,23 +22,14 @@ import PanelResizable from "./panel";
 
 export function Dashboard() {
   return (
-    <div className="grid h-screen w-full pl-[56px]">
+    <div className="grid h-screen w-screen max-w-full pl-[56px]">
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
         <div className="border-b p-2">
           <Button variant="outline" size="icon" aria-label="Home">
-            <Triangle className="size-5 fill-foreground" />
+            <Binary className="size-5 fill-foreground" />
           </Button>
         </div>
         <nav className="grid gap-1 p-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-lg bg-muted"
-            aria-label="Playground"
-          >
-            <SquareTerminal className="size-5" />
-          </Button>
-
           <Button
             variant="ghost"
             size="icon"
@@ -116,8 +106,8 @@ export function Dashboard() {
             </DrawerContent>
           </Drawer>
         </header>
-        <main className="flex-1">
-          <PanelResizable />
+        <main>
+          <div className="h-[94%] w-[97%] flex absolute "><PanelResizable /></div>
         </main>
       </div>
     </div>

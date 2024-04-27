@@ -5,18 +5,18 @@ import {
 } from "@/components/ui/resizable";
 import Xterm from "./xterm/xterm";
 import Preview from "./preview/preview";
-import Editor from "./monaco/monaco";
+import MonacoEditor from "./monaco/monaco";
 
 export default function PanelResizable() {
   return (
     <ResizablePanelGroup direction="horizontal" className="h-full w-full">
       <ResizablePanel defaultSize={60}>
-        <div className="">
-          <Editor />
+        <div className="h-full">
+          <MonacoEditor />
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel>
+      <ResizablePanel defaultSize={40}>
         <ResizablePanelGroup direction="vertical">
           <ResizablePanel defaultSize={60}>
             <div className="h-full w-full border-l-4">
