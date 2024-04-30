@@ -18,9 +18,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import PanelResizable from "./panel";
+import PanelResizable from "../panel";
 
-export function Dashboard() {
+export function Playground() {
   return (
     <div className="grid h-screen w-screen max-w-full pl-[56px]">
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
