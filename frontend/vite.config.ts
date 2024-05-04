@@ -10,4 +10,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  optimizeDeps: {
+    exclude: [
+      'chunk-UV5CTPV7.js' // Add the problematic file name here
+    ]
+  }
 })

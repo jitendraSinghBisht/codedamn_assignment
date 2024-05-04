@@ -11,7 +11,7 @@ export const userSlice = createSlice({
   initialState: {
     username: "",
     email: "",
-    loggedIn: false,
+    loggedIn: true,
   },
   reducers: {
     loginUser(state, action: PayloadAction<Iuser>) {

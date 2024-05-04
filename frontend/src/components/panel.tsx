@@ -24,8 +24,8 @@ export default function PanelResizable() {
             </div>
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel defaultSize={40}>
-            <div className="border-t-4 border-l-4">
+          <ResizablePanel defaultSize={40} className="border-t-4 border-l-4">
+            <div className="">
               <Xterm />
             </div>
           </ResizablePanel>
