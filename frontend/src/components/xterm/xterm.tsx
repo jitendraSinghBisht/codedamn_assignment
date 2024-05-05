@@ -28,7 +28,7 @@ function Xterm() {
 
   return (<>
   <div className=" text-white pt-1 pl-3 border-b">Terminal</div>
-  <div className="pl-3 pt-1 mb-2 overflow-auto h-[95%] w-full min-h-[]" ref={termRef}></div>
+  <div className="pl-3 pt-1 mb-2 overflow-scroll h-[90%] w-full min-h-[]" ref={termRef}></div>
   </>);
 }
 

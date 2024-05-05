@@ -1,21 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-
+import type { TFiles } from "../../folderview/folderview";
+ 
 interface Ifile {
-  folder?: object;
+  folder?: Array<TFiles>;
   curFile?: string;
   curFolder?: string;
   curFileLink?: string;
 }
 
-export const fileSlice = createSlice({
-  name: "file",
-  initialState: {
-    folder: {},
+const instate: Ifile = {
+    folder: [],
     curFile: "",
     curFolder: "",
     curFileLink: "",
-  },
+  }
+
+export const fileSlice = createSlice({
+  name: "file",
+  initialState: instate,
   reducers: {
     updateFolder(state, action: PayloadAction<Ifile>) {
       state = {

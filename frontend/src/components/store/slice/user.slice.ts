@@ -4,15 +4,18 @@ import type { RootState } from '../store'
 interface Iuser {
   username: string;
   email: string;
+  loggedIn?: boolean;
+}
+
+const instate: Iuser= {
+  username: "",
+  email: "",
+  loggedIn: true,
 }
 
 export const userSlice = createSlice({
   name: "user",
-  initialState: {
-    username: "",
-    email: "",
-    loggedIn: true,
-  },
+  initialState: instate,
   reducers: {
     loginUser(state, action: PayloadAction<Iuser>) {
       state = {
