@@ -1,26 +1,17 @@
-import express from "express";
-import { createServer } from "http";
-import { Server } from "socket.io";
-import cors from "cors";
+import dotenv from "dotenv";
+import connectDB from "./db/index.js";
+import { app } from "./app.js";
 
-const app = express();
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: "*"
-  }
+dotenv.config({
+  path: "./env",
 });
 
-app.use(cors( {origin: "*"}))
-
-app.get("/", (req, res) => {
-  res.send(`<script type="module">import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";const socket = io();socket.on("connect", () => {console.log(socket.id);});</script><h1>Hello</h1>`)
-})
-
-io.on("connection", (socket) => {
-  // ...
-  console.log("hello l gg")
-});
-
-
-httpServer.listen(3000, () => { console.log("Serever listening at port 3000") });
+connectDB()
+  .then(() => {
+    app.listen(process.env.PORT || 8000, () => {
+      console.log("Server running at port: ", process.env.PORT);
+    });
+  })
+  .catch((err) => {
+    console.log("MongoDB connection error: ", err);
+  });
