@@ -19,17 +19,41 @@ import {
 } from "@/components/ui/select";
 import { useSelector } from "react-redux";
 import { userData } from "../store/slice/user.slice";
+import { useState } from "react";
 
 export function Home() {
   const navigate = useNavigate();
+  const [old,setOld] = useState(false)
 
   const user = useSelector(userData)
 
   function deploy(){/* TODO:Server call */}
+  function getProject(){/* TODO:Server call */
+    setOld(true);
+  }
 
   return (
-    <div className="flex justify-center items-center h-full w-full">
+    <div className="flex justify-center items-center h-full w-full flex-col gap-3">
       <Card className="w-[350px] bg-gray-600">
+      <CardHeader>
+          <CardTitle>Enter existing project</CardTitle>
+          <CardDescription>
+            Goto your previous project in one-click.
+          </CardDescription>
+        </CardHeader>
+        {old && <CardContent></CardContent>}
+        <CardFooter className="flex justify-between">
+          {!user.loggedIn && <Button
+            variant="outline"
+            onClick={() => { navigate("/login"); }}
+            className="bg-slate-800"
+          >
+            Login to see
+          </Button> }
+          {user.loggedIn && <Button variant="outline" onClick={getProject}>Get previous projects</Button>}
+        </CardFooter>
+      </Card>
+      {!old && <Card className="w-[350px] bg-gray-600">
         <CardHeader>
           <CardTitle>Create project</CardTitle>
           <CardDescription>
@@ -70,7 +94,7 @@ export function Home() {
           </Button> }
           <Button variant="outline" onClick={deploy}>Deploy</Button>
         </CardFooter>
-      </Card>
+      </Card>}
     </div>
   );
 }

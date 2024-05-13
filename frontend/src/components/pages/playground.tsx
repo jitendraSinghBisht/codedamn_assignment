@@ -1,11 +1,5 @@
 import {
-  // Book,
-  // Bot,
-  // Code2,
-  // LifeBuoy,
   Settings,
-  // Settings2,
-  // SquareUser,
   Binary,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
