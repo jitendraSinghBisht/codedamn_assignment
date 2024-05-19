@@ -1,8 +1,11 @@
+import { WebSocketServer } from 'ws';
 import dotenv from "dotenv";
 import connectDB from "./db/index.js";
 import { app } from "./app.js";
 
 dotenv.config();
+
+const wss = new WebSocketServer({ port: Number(process.env.WSPORT) || 3000 });
 
 connectDB()
   .then(() => {

@@ -75,4 +75,4 @@ const logOut = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200,{},"Logged out successfully"))
 })
 
-export { signUp }
+export { signUp, signIn, logOut }
