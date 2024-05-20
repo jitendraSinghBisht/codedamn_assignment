@@ -6,6 +6,8 @@ import { Volume } from "../models/volume.model.js";
 import Docker from "dockerode";
 import { Document } from "mongoose";
 import fs from 'node:fs';
+import folderRead, { IFolder } from "../utils/folderStruct.js";
+import { v4 as uuid } from "uuid";
 
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
 enum workDir {
@@ -27,7 +29,9 @@ const createContainer = asyncHandler(async (req: Request, res: Response) => {
   if (!volumedb) {
     await Volume.create({
       owner: user._id,
-      volumeName: name
+      volumeName: name,
+      volumeImage: imageName,
+      volumeLang: lang,
     })
   }
   const volumeName = `${process.env.VOLUME_LOC}/volumes/${name}`
@@ -64,6 +68,54 @@ const createContainer = asyncHandler(async (req: Request, res: Response) => {
     }, "Container created and startes successfully"))
 })
 
+const getOldVolumes = asyncHandler(async (req: Request, res: Response) => {
+  const { user }: { user: Document } = req.body;
 
+  const oldVolumes = await Volume.find({owner: user._id})
 
-export { createContainer }
+  if (!oldVolumes) {
+    throw new ApiError(400,"No volumes found")
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {
+      oldVolumes
+    }, "Volumes fetched successfully"))
+})
+
+const getFolderStructure = asyncHandler (async (req: Request, res: Response) => {
+  const { user, volumeName }: { user: Document, volumeName: string } = req.body
+
+  if (!volumeName) {
+    throw new ApiError(400,"volumeName is required")
+  }
+
+  const basePath = process.env.VOLUME_LOC
+  if (!basePath) {
+    throw new ApiError(500,"Volume Location is missing in env variables")
+  }
+  const result: IFolder = {
+    id: uuid(),
+    name: "root",
+    childFiles: [],
+    childFolder: []
+  }
+  folderRead(basePath,result)
+
+  await Volume.updateOne(
+    {
+      owner: user._id,
+      volumeName: volumeName
+    },
+    { $set: {
+      volumeStructure: JSON.stringify(result)
+    }
+  });
+
+  res
+    .status(200)
+    .json(new ApiResponse(200,result,"Structure fetched successfully"))
+})
+
+export { createContainer, getOldVolumes, getFolderStructure }
