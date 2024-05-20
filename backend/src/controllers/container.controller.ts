@@ -113,7 +113,7 @@ const getFolderStructure = asyncHandler (async (req: Request, res: Response) => 
     }
   });
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200,result,"Structure fetched successfully"))
 })

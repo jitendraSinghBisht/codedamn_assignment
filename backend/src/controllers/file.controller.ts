@@ -51,7 +51,7 @@ const readFile = asyncHandler((req: Request, res: Response) => {
 
   const data = fs.readFileSync(filePath);
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, { fileId, data }, "File read successfully"))
 })
@@ -92,7 +92,7 @@ const deleteFile = asyncHandler(async (req: Request, res: Response) => {
       }
     });
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, result, "File deleted successfully"))
 })
@@ -114,7 +114,7 @@ const updateFile = asyncHandler((req: Request, res: Response) => {
 
   fs.writeFileSync(filePath, data);
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, { fileId, data }, "File updated successfully"))
 })
@@ -155,7 +155,7 @@ const createFile = asyncHandler(async (req: Request, res: Response) => {
       }
     });
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, result, "File created successfully"))
 })
@@ -196,7 +196,7 @@ const createFolder = asyncHandler(async (req: Request, res: Response) => {
       }
     });
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, result, "Folder created successfully"))
 })
@@ -237,7 +237,7 @@ const deleteFolder  = asyncHandler(async (req: Request, res: Response) => {
       }
     });
 
-  res
+  return res
     .status(200)
     .json(new ApiResponse(200, result, "Folder created successfully"))
 })
