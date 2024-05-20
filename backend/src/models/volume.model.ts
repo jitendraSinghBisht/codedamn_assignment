@@ -11,9 +11,8 @@ const volumeSchema = new mongoose.Schema(
       type: String,
       require: true
     },
-    volumeLocation: {
+    volumeStructure: {
       type: String,
-      require: true
     },
   },
   { timestamps: true }

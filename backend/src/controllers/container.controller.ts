@@ -17,13 +17,19 @@ enum workDir {
 
 
 const createContainer = asyncHandler(async (req: Request, res: Response) => {
-  const { imageName, lang, user }: { imageName: string, lang: workDir, user: Document } = req.body;
-  const name = `${user._id}+${Date.now()}`;
+  const { imageName, lang, user, name }: { imageName: string, lang: workDir, user: Document, name: string } = req.body;
 
-  if (!imageName || !lang || !user) {
-    throw new ApiError(400, "imageName, lang and user are required")
+  if (!imageName || !lang || !user || !name) {
+    throw new ApiError(400, "imageName, lang, user and name are required")
   }
 
+  const volumedb = await Volume.find({ volumeName: name, owner: user._id })
+  if (!volumedb) {
+    await Volume.create({
+      owner: user._id,
+      volumeName: name
+    })
+  }
   const volumeName = `${process.env.VOLUME_LOC}/volumes/${name}`
 
   if (!fs.existsSync(volumeName)) {
@@ -41,7 +47,7 @@ const createContainer = asyncHandler(async (req: Request, res: Response) => {
     AttachStderr: true,
     Tty: true,
     OpenStdin: true,
-    HostConfig:{
+    HostConfig: {
       Binds: [`${volumeName}:/home/${lang}`],
     }
   }
