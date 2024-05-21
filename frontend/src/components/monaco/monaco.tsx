@@ -13,7 +13,7 @@ export default function MonacoEditor() {
   const dispatch = useDispatch()
 
   function setlang(f: Ifile){
-    switch (f.curFile?.name.split('.').pop()) {
+    switch (f.curFile?.split('.').pop()) {
       case "py":
         return "python";
       case "java":
@@ -39,12 +39,12 @@ export default function MonacoEditor() {
     if (monaco) {
       console.log('here is the monaco instance:', monaco);
     }
-  }, [monaco]);
+  }, [monaco, file]);
 
   return (
     <>
       <Editor
-        className="h-full w-full"
+        className="h-full w-full pt-2"
         theme="vs-dark"
         defaultLanguage={setlang(file)}
         defaultValue={file.curFileData}

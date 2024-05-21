@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { useDispatch, useSelector } from "react-redux";
 import { userData } from "../store/slice/user.slice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { IApiError, IApiResponse, IOldVolumes } from "@/types";
 import { setContainer } from "../store/slice/container.slice";
 import { updateFolder } from "../store/slice/folder.slice";
@@ -86,9 +86,9 @@ export function Home() {
   }
 
   const user = useSelector(userData)
-  if (!user.loggedIn) {
-    navigate("/")
-  }
+  useEffect(()=>{
+    !user.loggedIn && navigate("/login")
+  },[user])
 
   async function getFiles(volumeName: string){
     const response = await fetch(
@@ -219,9 +219,9 @@ export function Home() {
           ))}
         </CardContent>}
         <CardFooter className="flex justify-between" >
-          {user.loggedIn && <Button variant="outline" onClick={getProject}>
+          <Button variant="outline" onClick={getProject}>
             {old ? 'Create new project' :'Get previous projects'}
-          </Button>}
+          </Button>
         </CardFooter>
       </Card>
       {!old && <Card className="w-[350px] bg-gray-600">

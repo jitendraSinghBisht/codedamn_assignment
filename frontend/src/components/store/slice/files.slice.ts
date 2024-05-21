@@ -1,17 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-import type { IFile, IFolder } from "@/types";
 
 interface Ifile {
-  curFile?: IFile | null;
-  curFolder?: IFolder | null;
+  curFile?: string;
+  curFileId?: string;
   curFileData?: string;
 }
 
 const instate: Ifile = {
-    curFile: null,
-    curFolder: null,
-    curFileData: "",
+    curFile: "",
+    curFileId: "",
+    curFileData: "# Welcome to the playground\n## Enjoy your code",
   }
 
 export const fileSlice = createSlice({
@@ -21,7 +20,7 @@ export const fileSlice = createSlice({
     updateFile(state, action: PayloadAction<Ifile>) {
       state = {
         curFile: action.payload.curFile || state.curFile,
-        curFolder: action.payload.curFolder || state.curFolder,
+        curFileId: action.payload.curFileId || state.curFileId,
         curFileData: action.payload.curFileData || state.curFileData,
       };
     },

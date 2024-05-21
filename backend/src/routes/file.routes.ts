@@ -22,7 +22,7 @@ router.route("/:fileId")
 
 router.route("/:folderId")
   .post(createFile)
-  .patch(createFolder)
+  .put(createFolder)
   .delete(deleteFolder)
 
 export default router
