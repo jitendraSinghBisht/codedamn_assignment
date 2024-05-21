@@ -1,71 +1,38 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { IFolder, IFile } from "@/types";
+import { folderData } from "../store/slice/folder.slice";
+import { fileData } from "../store/slice/files.slice";
 
-export type TFiles = {
-  isFile: true;
-  name: string;
-  fileType?: string;
-} | {
-  isFile: false;
-  name: string;
-  children: Array<TFiles>;
-};
+function Folder({ folder }: { folder: IFolder }) {
+  const [expand, setExpand] = useState(true);
+  const file = useSelector(fileData)
 
-//demo
-const files: TFiles = {
-  name: "root",
-  children: [
-    {
-      isFile: false,
-      name: "node_modules",
-      children: [
-        {
-          isFile: true,
-          name: ".bin",
-        },
-        {
-          isFile: true,
-          name: ".cache"
-        }
-      ]
-    },
-    {
-      isFile: false,
-      name: "public",
-      children: [
-        {
-          isFile: true,
-          name: "index.html"
-        },
-        {
-          isFile: true,
-          name: "robots.tsx"
-        }
-      ]
-    },
-    {
-      isFile: false,
-      name: "src",
-      children: [
-        {
-          isFile: false,
-          name: "components",
-          children: []
-        },
-      ]
-    }
-  ]
-}
-
-type TStructFiles = {
-  entry: TFiles;
-  depth: number;
-}
-
-export default function FolderView({ entry, depth }: TStructFiles) {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  function changeFile(){
+    file.curFile
+  }
 
   return (
     <>
+      <div className="folder cursor-pointer" onClick={() => setExpand(!expand)}>
+        📁 {folder.name}
+      </div>
+      <div style={{ display: expand ? "block" : "none", paddingLeft: "25px" }}>
+        {folder.childFolder.map((child: IFolder) => {
+          return <Folder folder={child} />;
+        })}
+        {folder.childFiles.map((child: IFile) => {
+          return <div className="file cursor-pointer" onClick={changeFile}> 🗄️{child.name}</div>;
+        })}
+      </div>
     </>
   );
 }
+
+function Folderview() {
+  const rootfolder = useSelector(folderData)
+
+  return <Folder folder={rootfolder} />;
+}
+
+export default Folderview;

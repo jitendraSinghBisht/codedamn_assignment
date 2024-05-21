@@ -71,7 +71,7 @@ const createContainer = asyncHandler(async (req: Request, res: Response) => {
 const getOldVolumes = asyncHandler(async (req: Request, res: Response) => {
   const { user }: { user: Document } = req.body;
 
-  const oldVolumes = await Volume.find({owner: user._id})
+  const oldVolumes = await Volume.find({owner: user._id}).select("-volumeStructure -owner -createdAt -updatedAt")
 
   if (!oldVolumes) {
     throw new ApiError(400,"No volumes found")

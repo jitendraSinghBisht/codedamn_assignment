@@ -10,7 +10,7 @@ interface Iuser {
 const instate: Iuser= {
   username: "",
   email: "",
-  loggedIn: true,
+  loggedIn: false,
 }
 
 export const userSlice = createSlice({

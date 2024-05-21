@@ -51,7 +51,13 @@ const signIn = asyncHandler(async (req: Request, res: Response) => {
   await user.save()
 
   return res
-    .cookie('userSession', user.session)
+    .cookie(
+      'userSession',
+      user.session,
+      {
+        httpOnly: true,
+        secure: true
+      })
     .status(200)
     .json(new ApiResponse(200, {
       userId: user._id,

@@ -1,17 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
-
-interface IContainer {
-  wsurl: string;
-  containerId: string;
-  containerName: string;
-}
+import type { IContainer } from "@/types";
 
 const instate: IContainer = {
-    wsurl: "",
-    containerId: "",
-    containerName: "",
-  }
+  wsurl: "",
+  containerId: "",
+  containerName: "",
+}
 
 export const containerSlice = createSlice({
   name: "container",

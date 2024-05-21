@@ -16,7 +16,7 @@ function Xterm() {
     const term = new Terminal({ convertEol: true });
     term.open(termRef.current!); // Accessing the current value of termRef
 
-    const socket = new WebSocket(container.wsurl)
+    const socket = new WebSocket(`${container.wsurl}/container/${container.containerId}`)
     const attachAddon = new AttachAddon(socket)
     term.loadAddon(attachAddon)
     const fitAddon = new FitAddon();
