@@ -15,6 +15,7 @@ export const folderSlice = createSlice({
   reducers: {
     updateFolder(state, action: PayloadAction<IFolder>) {
       state = action.payload;
+      console.log(state);
     },
     emptyFolder(state) {
       state = {
@@ -23,6 +24,7 @@ export const folderSlice = createSlice({
         childFiles: [],
         childFolder: [],
       }
+      console.log(state);
     },
   },
 });

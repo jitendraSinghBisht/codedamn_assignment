@@ -18,6 +18,7 @@ export const containerSlice = createSlice({
         containerId: action.payload.containerId,
         containerName: action.payload.containerName,
       };
+      console.log(state);
     },
   },
 });
