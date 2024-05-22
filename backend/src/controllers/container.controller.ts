@@ -64,7 +64,7 @@ const createContainer = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200, {
       wsurl: process.env.WSURL,
       containerId: container.id,
-      containerName: name,
+      containerName: name
     }, "Container created and startes successfully"))
 })
 
