@@ -52,8 +52,8 @@ export function Login() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          email: user.email,
-          password: user.password
+          "email": user.email,
+          "password": user.password
         })
       }
     );
@@ -85,9 +85,9 @@ export function Login() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          username: user.username,
-          email: user.email,
-          password: user.password
+          "username": user.username,
+          "email": user.email,
+          "password": user.password
         })
       }
     );

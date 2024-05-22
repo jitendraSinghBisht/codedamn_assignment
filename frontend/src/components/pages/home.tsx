@@ -100,7 +100,7 @@ export function Home() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          volumeName
+          "volumeName": volumeName
         })
       }
     );
@@ -134,9 +134,9 @@ export function Home() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name: values.name,
-          lang: values.lang,
-          imageName: images.language,
+          "name": values.name,
+          "lang": values.lang,
+          "imageName": images.language,
         })
       }
     );
@@ -165,9 +165,9 @@ export function Home() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          name: vols.volumeName,
-          lang: vols.volumeLang,
-          imageName: vols.volumeImage
+          "name": vols.volumeName,
+          "lang": vols.volumeLang,
+          "imageName": vols.volumeImage
         })
       }
     );

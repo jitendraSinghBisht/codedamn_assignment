@@ -31,7 +31,7 @@ export function Playground() {
     });
     const jres: IApiResponse | IApiError = await response.json();
     if (jres.statusCode >= 400) {
-      alert("Unable to read file... \nTry again later....");
+      alert("Unable to logout... \nTry again later....");
       return;
     }
     if (jres.success) {

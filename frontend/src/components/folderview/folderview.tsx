@@ -53,7 +53,7 @@ function Folder({ folder }: { folder: IFolder }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          data: file.curFileData,
+          "data": file.curFileData,
         }),
       }
     );
@@ -80,7 +80,7 @@ function Folder({ folder }: { folder: IFolder }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        file: fileName,
+        "file": fileName,
       }),
     });
     const jres: IApiResponse | IApiError = await response.json();
@@ -110,7 +110,7 @@ function Folder({ folder }: { folder: IFolder }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        folder: folderName,
+        "folder": folderName,
       }),
     });
     const jres: IApiResponse | IApiError = await response.json();
@@ -249,7 +249,7 @@ function Folderview() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          data: file.curFileData,
+          "data": file.curFileData,
         }),
       }
     );
