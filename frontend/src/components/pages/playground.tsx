@@ -22,7 +22,7 @@ export function Playground() {
   const user = useSelector(userData);
 
   async function logout() {
-    const response = await fetch(`http://localhost:8000/api/user/log-out`, {
+    const response = await fetch(`${process.env.URL}/api/user/log-out`, {
       method: "POST",
       mode: "no-cors",
       headers: {

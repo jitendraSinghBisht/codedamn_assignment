@@ -44,7 +44,7 @@ export function Login() {
       return;
     }
     const response = await fetch(
-      "http://localhost:8000/api/user/sign-in",
+      `${process.env.URL}/api/user/sign-in`,
       {
         method: "POST",
         mode: "no-cors",
@@ -78,7 +78,7 @@ export function Login() {
       return;
     }
     const response = await fetch(
-      "http://localhost:8000/api/user/sign-up",
+      `${process.env.URL}/api/user/sign-up`,
       {
         method: "POST",
         mode: "no-cors",
