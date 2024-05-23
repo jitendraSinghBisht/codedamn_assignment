@@ -20,7 +20,7 @@ function Folder({ folder }: { folder: IFolder }) {
   useEffect(() => {}, [fol, file]);
 
   async function readFile(fileId: string) {
-    const response = await fetch(`http://52.23.234.225:8000/api/file/read-file/${fileId}`, {
+    const response = await fetch(`https://34.205.238.62/api/file/read-file/${fileId}`, {
       method: "GET",
       mode: "no-cors",
       headers: {
@@ -45,7 +45,7 @@ function Folder({ folder }: { folder: IFolder }) {
 
   async function changeFile(fileId: string) {
     const response = await fetch(
-      `http://52.23.234.225:8000/api/file/update-file/${file.curFileId}`,
+      `https://34.205.238.62/api/file/update-file/${file.curFileId}`,
       {
         method: "PATCH",
         mode: "no-cors",
@@ -73,7 +73,7 @@ function Folder({ folder }: { folder: IFolder }) {
       alert("Try again with valid input....");
       return;
     }
-    const response = await fetch(`http://52.23.234.225:8000/api/file/create-file/${folderId}`, {
+    const response = await fetch(`https://34.205.238.62/api/file/create-file/${folderId}`, {
       method: "POST",
       mode: "no-cors",
       headers: {
@@ -103,7 +103,7 @@ function Folder({ folder }: { folder: IFolder }) {
       alert("Try again with valid input....");
       return;
     }
-    const response = await fetch(`http://52.23.234.225:8000/api/file/create-folder/${folderId}`, {
+    const response = await fetch(`https://34.205.238.62/api/file/create-folder/${folderId}`, {
       method: "POST",
       mode: "no-cors",
       headers: {
@@ -126,7 +126,7 @@ function Folder({ folder }: { folder: IFolder }) {
   }
 
   async function deleteFolder(folderId: string) {
-    const response = await fetch(`http://52.23.234.225:8000/api/file/delete-folder/${folderId}`, {
+    const response = await fetch(`https://34.205.238.62/api/file/delete-folder/${folderId}`, {
       method: "DELETE",
       mode: "no-cors",
       headers: {
@@ -146,7 +146,7 @@ function Folder({ folder }: { folder: IFolder }) {
   }
 
   async function deleteFile(fileId: string) {
-    const response = await fetch(`http://52.23.234.225:8000/api/file/delete-file/${fileId}`, {
+    const response = await fetch(`https://34.205.238.62/api/file/delete-file/${fileId}`, {
       method: "DELETE",
       mode: "no-cors",
       headers: {
@@ -241,7 +241,7 @@ function Folderview() {
 
   async function saveFile() {
     const response = await fetch(
-      `http://52.23.234.225:8000/api/file/${file.curFileId}`,
+      `https://34.205.238.62/api/file/${file.curFileId}`,
       {
         method: "PATCH",
         mode: "no-cors",

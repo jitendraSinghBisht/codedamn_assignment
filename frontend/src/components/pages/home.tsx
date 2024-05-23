@@ -92,7 +92,7 @@ export function Home() {
 
   async function getFiles(volumeName: string){
     const response = await fetch(
-      "http://52.23.234.225:8000/api/container/get-root-structure",
+      "https://34.205.238.62/api/container/get-root-structure",
       {
         method: "POST",
         mode: "no-cors",
@@ -126,7 +126,7 @@ export function Home() {
     const images = {language: "ubuntu"}
 
     const response = await fetch(
-      "http://52.23.234.225:8000/api/container/create",
+      "https://34.205.238.62/api/container/create",
       {
         method: "POST",
         mode: "no-cors",
@@ -157,7 +157,7 @@ export function Home() {
 
   async function oldDeploy(vols: IOldVolumes) {
     const response = await fetch(
-      "http://52.23.234.225:8000/api/container/create",
+      "https://34.205.238.62/api/container/create",
       {
         method: "POST",
         mode: "no-cors",
@@ -189,7 +189,7 @@ export function Home() {
   async function getProject(){ 
     setOld((prevState)=> !prevState);
     if (!old && !oldVolumes.length) {
-      const response = await fetch("http://52.23.234.225:8000/api/container/get-old-volumes",{mode: "no-cors"});
+      const response = await fetch("https://34.205.238.62/api/container/get-old-volumes",{mode: "no-cors"});
       const jres: IApiResponse | IApiError = await response.json();
       if (jres.statusCode >= 400) {
         alert("No previous projects found");

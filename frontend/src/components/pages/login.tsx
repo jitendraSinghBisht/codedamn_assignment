@@ -44,7 +44,7 @@ export function Login() {
       return;
     }
     const response = await fetch(
-      "http://52.23.234.225:8000/api/user/sign-in",
+      "https://34.205.238.62/api/user/sign-in",
       {
         method: "POST",
         mode: "no-cors",
@@ -78,7 +78,7 @@ export function Login() {
       return;
     }
     const response = await fetch(
-      "http://52.23.234.225:8000/api/user/sign-up",
+      "https://34.205.238.62/api/user/sign-up",
       {
         method: "POST",
         mode: "no-cors",
