@@ -15,6 +15,7 @@ import { userData } from "../store/slice/user.slice";
 import { useEffect } from "react";
 import FolderView from "../folderview/folderview";
 import { IApiError, IApiResponse } from "@/types";
+import env from "@/conf";
 
 export function Playground() {
   const dispatch = useDispatch();
@@ -22,15 +23,15 @@ export function Playground() {
   const user = useSelector(userData);
 
   async function logout() {
-    const response = await fetch(`${process.env.URL}/api/user/log-out`, {
+    const response = await fetch(`${env.url}/api/user/log-out`, {
       method: "POST",
       mode: "no-cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "userId": user.userId
-      })
+        userId: user.userId,
+      }),
     });
     const jres: IApiResponse | IApiError = await response.json();
     if (jres.statusCode >= 400) {

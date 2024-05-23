@@ -10,6 +10,7 @@ import { IFolder, IFile, IApiResponse, IApiError } from "@/types";
 import { folderData, updateFolder } from "../store/slice/folder.slice";
 import { fileData, updateFile } from "../store/slice/files.slice";
 import { Button } from "@/components/ui/button";
+import env from "@/conf";
 
 function Folder({ folder }: { folder: IFolder }) {
   const [expand, setExpand] = useState(true);
@@ -20,7 +21,7 @@ function Folder({ folder }: { folder: IFolder }) {
   useEffect(() => {}, [fol, file]);
 
   async function readFile(fileId: string) {
-    const response = await fetch(`${process.env.URL}/api/file/read-file/${fileId}`, {
+    const response = await fetch(`${env.url}/api/file/read-file/${fileId}`, {
       method: "GET",
       mode: "no-cors",
       headers: {
@@ -45,7 +46,7 @@ function Folder({ folder }: { folder: IFolder }) {
 
   async function changeFile(fileId: string) {
     const response = await fetch(
-      `${process.env.URL}/api/file/update-file/${file.curFileId}`,
+      `${env.url}/api/file/update-file/${file.curFileId}`,
       {
         method: "PATCH",
         mode: "no-cors",
@@ -53,7 +54,7 @@ function Folder({ folder }: { folder: IFolder }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          "data": file.curFileData,
+          data: file.curFileData,
         }),
       }
     );
@@ -73,16 +74,19 @@ function Folder({ folder }: { folder: IFolder }) {
       alert("Try again with valid input....");
       return;
     }
-    const response = await fetch(`${process.env.URL}/api/file/create-file/${folderId}`, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "file": fileName,
-      }),
-    });
+    const response = await fetch(
+      `${env.url}/api/file/create-file/${folderId}`,
+      {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          file: fileName,
+        }),
+      }
+    );
     const jres: IApiResponse | IApiError = await response.json();
     if (jres.statusCode >= 400) {
       alert("Unable to create file... \nTry again later....");
@@ -103,16 +107,19 @@ function Folder({ folder }: { folder: IFolder }) {
       alert("Try again with valid input....");
       return;
     }
-    const response = await fetch(`${process.env.URL}/api/file/create-folder/${folderId}`, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "folder": folderName,
-      }),
-    });
+    const response = await fetch(
+      `${env.url}/api/file/create-folder/${folderId}`,
+      {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          folder: folderName,
+        }),
+      }
+    );
     const jres: IApiResponse | IApiError = await response.json();
     if (jres.statusCode >= 400) {
       alert("Unable to create folder... \nTry again later....");
@@ -126,13 +133,16 @@ function Folder({ folder }: { folder: IFolder }) {
   }
 
   async function deleteFolder(folderId: string) {
-    const response = await fetch(`${process.env.URL}/api/file/delete-folder/${folderId}`, {
-      method: "DELETE",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${env.url}/api/file/delete-folder/${folderId}`,
+      {
+        method: "DELETE",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const jres: IApiResponse | IApiError = await response.json();
     if (jres.statusCode >= 400) {
       alert("Unable to delete folder... \nTry again later....");
@@ -146,7 +156,7 @@ function Folder({ folder }: { folder: IFolder }) {
   }
 
   async function deleteFile(fileId: string) {
-    const response = await fetch(`${process.env.URL}/api/file/delete-file/${fileId}`, {
+    const response = await fetch(`${env.url}/api/file/delete-file/${fileId}`, {
       method: "DELETE",
       mode: "no-cors",
       headers: {
@@ -240,19 +250,16 @@ function Folderview() {
   const dispatch = useDispatch();
 
   async function saveFile() {
-    const response = await fetch(
-      `${process.env.URL}/api/file/${file.curFileId}`,
-      {
-        method: "PATCH",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          "data": file.curFileData,
-        }),
-      }
-    );
+    const response = await fetch(`${env.url}/api/file/${file.curFileId}`, {
+      method: "PATCH",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data: file.curFileData,
+      }),
+    });
     const jres: IApiResponse | IApiError = await response.json();
     if (jres.statusCode >= 400) {
       alert("Unable to save file... \nTry again later....");
