@@ -18,11 +18,9 @@ export const fileSlice = createSlice({
   initialState: instate,
   reducers: {
     updateFile(state, action: PayloadAction<Ifile>) {
-      state = {
-        curFile: action.payload.curFile || state.curFile,
-        curFileId: action.payload.curFileId || state.curFileId,
-        curFileData: action.payload.curFileData || state.curFileData,
-      };
+      state.curFile = action.payload.curFile || state.curFile
+      state.curFileId = action.payload.curFileId || state.curFileId
+      state.curFileData = action.payload.curFileData || state.curFileData
     },
   },
 });

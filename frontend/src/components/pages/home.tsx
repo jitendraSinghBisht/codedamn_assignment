@@ -29,50 +29,7 @@ export function Home() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [old, setOld] = useState(false);
-  const [oldVolumes, setOldVolumes] = useState<Array<IOldVolumes>>([
-    {
-      _id: "60d0fe4f5311236168a109ca",
-      volumeName: "Volume 1",
-      volumeImage: "http://example.com/image1.jpg",
-      volumeLang: "EN",
-    },
-    {
-      _id: "60d0fe4f5311236168a109cb",
-      volumeName: "Volume 2",
-      volumeImage: "http://example.com/image2.jpg",
-      volumeLang: "FR",
-    },
-    {
-      _id: "60d0fe4f5311236168a109cc",
-      volumeName: "Volume 3",
-      volumeImage: "http://example.com/image3.jpg",
-      volumeLang: "ES",
-    },
-    {
-      _id: "60d0fe4f5311236168a109cb",
-      volumeName: "Volume 2",
-      volumeImage: "http://example.com/image2.jpg",
-      volumeLang: "FR",
-    },
-    {
-      _id: "60d0fe4f5311236168a109cc",
-      volumeName: "Volume 3",
-      volumeImage: "http://example.com/image3.jpg",
-      volumeLang: "ES",
-    },
-    {
-      _id: "60d0fe4f5311236168a109cb",
-      volumeName: "Volume 2",
-      volumeImage: "http://example.com/image2.jpg",
-      volumeLang: "FR",
-    },
-    {
-      _id: "60d0fe4f5311236168a109cc",
-      volumeName: "Volume 3",
-      volumeImage: "http://example.com/image3.jpg",
-      volumeLang: "ES",
-    },
-  ]);
+  const [oldVolumes, setOldVolumes] = useState<Array<IOldVolumes>>([]);
   const [values, setValues] = useState({
     name: "",
     lang: "",
@@ -95,12 +52,12 @@ export function Home() {
       `${env.url}/api/container/get-root-structure`,
       {
         method: "POST",
-        mode: "no-cors",
+        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          volumeName: volumeName,
+          "volumeName": volumeName,
         }),
       }
     );
@@ -129,14 +86,14 @@ export function Home() {
 
     const response = await fetch(`${env.url}/api/container/create`, {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: values.name,
-        lang: values.lang,
-        imageName: images.language,
+        "name": values.name,
+        "lang": values.lang,
+        "imageName": images.language,
       }),
     });
     const jres: IApiResponse | IApiError = await response.json();
@@ -159,14 +116,14 @@ export function Home() {
   async function oldDeploy(vols: IOldVolumes) {
     const response = await fetch(`${env.url}/api/container/create`, {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: vols.volumeName,
-        lang: vols.volumeLang,
-        imageName: vols.volumeImage,
+        "name": vols.volumeName,
+        "lang": vols.volumeLang,
+        "imageName": vols.volumeImage,
       }),
     });
     const jres: IApiResponse | IApiError = await response.json();
@@ -190,7 +147,7 @@ export function Home() {
     setOld((prevState) => !prevState);
     if (!old && !oldVolumes.length) {
       const response = await fetch(`${env.url}/api/container/get-old-volumes`, {
-        mode: "no-cors",
+        mode: "cors",
       });
       const jres: IApiResponse | IApiError = await response.json();
       if (jres.statusCode >= 400) {

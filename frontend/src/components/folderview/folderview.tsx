@@ -23,7 +23,7 @@ function Folder({ folder }: { folder: IFolder }) {
   async function readFile(fileId: string) {
     const response = await fetch(`${env.url}/api/file/read-file/${fileId}`, {
       method: "GET",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -49,7 +49,7 @@ function Folder({ folder }: { folder: IFolder }) {
       `${env.url}/api/file/update-file/${file.curFileId}`,
       {
         method: "PATCH",
-        mode: "no-cors",
+        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
@@ -78,7 +78,7 @@ function Folder({ folder }: { folder: IFolder }) {
       `${env.url}/api/file/create-file/${folderId}`,
       {
         method: "POST",
-        mode: "no-cors",
+        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
@@ -111,7 +111,7 @@ function Folder({ folder }: { folder: IFolder }) {
       `${env.url}/api/file/create-folder/${folderId}`,
       {
         method: "POST",
-        mode: "no-cors",
+        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
@@ -137,7 +137,7 @@ function Folder({ folder }: { folder: IFolder }) {
       `${env.url}/api/file/delete-folder/${folderId}`,
       {
         method: "DELETE",
-        mode: "no-cors",
+        mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
@@ -158,7 +158,7 @@ function Folder({ folder }: { folder: IFolder }) {
   async function deleteFile(fileId: string) {
     const response = await fetch(`${env.url}/api/file/delete-file/${fileId}`, {
       method: "DELETE",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
@@ -252,7 +252,7 @@ function Folderview() {
   async function saveFile() {
     const response = await fetch(`${env.url}/api/file/${file.curFileId}`, {
       method: "PATCH",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },

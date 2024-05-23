@@ -14,17 +14,16 @@ export const folderSlice = createSlice({
   initialState: instate,
   reducers: {
     updateFolder(state, action: PayloadAction<IFolder>) {
-      state = action.payload;
-      console.log(state);
+      state.id = action.payload.id;
+      state.name = action.payload.name;
+      state.childFiles = action.payload.childFiles;
+      state.childFolder = action.payload.childFolder;
     },
     emptyFolder(state) {
-      state = {
-        id: "",
-        name: "",
-        childFiles: [],
-        childFolder: [],
-      }
-      console.log(state);
+      state.id = ""
+      state.name = ""
+      state.childFiles = []
+      state.childFolder = []
     },
   },
 });

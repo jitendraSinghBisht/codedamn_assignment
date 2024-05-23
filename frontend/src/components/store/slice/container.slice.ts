@@ -13,12 +13,9 @@ export const containerSlice = createSlice({
   initialState: instate,
   reducers: {
     setContainer(state, action: PayloadAction<IContainer>) {
-      state = {
-        wsurl: action.payload.wsurl,
-        containerId: action.payload.containerId,
-        containerName: action.payload.containerName,
-      };
-      console.log(state);
+      state.wsurl = action.payload.wsurl
+      state.containerId = action.payload.containerId
+      state.containerName = action.payload.containerName
     },
   },
 });

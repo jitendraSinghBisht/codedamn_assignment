@@ -8,7 +8,7 @@ interface Iuser {
   loggedIn?: boolean;
 }
 
-const instate: Iuser= {
+const instate: Iuser = {
   userId: "",
   username: "",
   email: "",
@@ -20,22 +20,16 @@ export const userSlice = createSlice({
   initialState: instate,
   reducers: {
     loginUser(state, action: PayloadAction<Iuser>) {
-      state = {
-        userId: action.payload.userId || state.userId,
-        username: action.payload.username,
-        email: action.payload.email,
-        loggedIn: true,
-      };
-      console.log(state);
+      state.userId = action.payload.userId || state.userId
+      state.username = action.payload.username
+      state.email = action.payload.email
+      state.loggedIn = true
     },
     logoutUser(state) {
-      state = {
-        userId: "",
-        username: "",
-        email: "",
-        loggedIn: false,
-      };
-      console.log(state);
+      state.userId = ""
+      state.username = ""
+      state.email = ""
+      state.loggedIn = false
     },
   },
 });

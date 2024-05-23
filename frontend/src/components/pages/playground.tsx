@@ -25,12 +25,12 @@ export function Playground() {
   async function logout() {
     const response = await fetch(`${env.url}/api/user/log-out`, {
       method: "POST",
-      mode: "no-cors",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: user.userId,
+        "userId": user.userId,
       }),
     });
     const jres: IApiResponse | IApiError = await response.json();
