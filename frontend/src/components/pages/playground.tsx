@@ -28,6 +28,9 @@ export function Playground() {
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        "userId": user.userId
+      })
     });
     const jres: IApiResponse | IApiError = await response.json();
     if (jres.statusCode >= 400) {

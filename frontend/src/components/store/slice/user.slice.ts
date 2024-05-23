@@ -2,12 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from '../store'
 
 interface Iuser {
+  userId: string;
   username: string;
   email: string;
   loggedIn?: boolean;
 }
 
 const instate: Iuser= {
+  userId: "",
   username: "",
   email: "",
   loggedIn: false,
@@ -19,6 +21,7 @@ export const userSlice = createSlice({
   reducers: {
     loginUser(state, action: PayloadAction<Iuser>) {
       state = {
+        userId: action.payload.userId || state.userId,
         username: action.payload.username,
         email: action.payload.email,
         loggedIn: true,
@@ -27,6 +30,7 @@ export const userSlice = createSlice({
     },
     logoutUser(state) {
       state = {
+        userId: "",
         username: "",
         email: "",
         loggedIn: false,

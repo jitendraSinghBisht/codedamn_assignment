@@ -26,7 +26,7 @@ const createContainer = asyncHandler(async (req: Request, res: Response) => {
   }
 
   const volumedb = await Volume.find({ volumeName: name, owner: user._id })
-  if (!volumedb) {
+  if (!volumedb.length) {
     await Volume.create({
       owner: user._id,
       volumeName: name,
@@ -34,7 +34,7 @@ const createContainer = asyncHandler(async (req: Request, res: Response) => {
       volumeLang: lang,
     })
   }
-  const volumeName = `${process.env.VOLUME_LOC}/volumes/${name}`
+  const volumeName = `${process.env.VOLUME_LOC}/${name}`
 
   if (!fs.existsSync(volumeName)) {
     fs.mkdirSync(volumeName, { recursive: true });
@@ -73,7 +73,7 @@ const getOldVolumes = asyncHandler(async (req: Request, res: Response) => {
 
   const oldVolumes = await Volume.find({owner: user._id}).select("-volumeStructure -owner -createdAt -updatedAt")
 
-  if (!oldVolumes) {
+  if (!oldVolumes.length) {
     throw new ApiError(400,"No volumes found")
   }
 
@@ -101,7 +101,7 @@ const getFolderStructure = asyncHandler (async (req: Request, res: Response) => 
     childFiles: [],
     childFolder: []
   }
-  folderRead(basePath,result)
+  folderRead(`${basePath}/${volumeName}`,result)
 
   await Volume.updateOne(
     {

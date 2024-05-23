@@ -39,11 +39,11 @@ export async function terminalConnect(ws: WebSocket, containerId: string) {
       ws.close();
     });
 
-    ws.on('close', () => {
+    ws.on('close', async () => {
       console.log('Client disconnected');
       stream.end();
-      container.stop();
-      container.remove();
+      await container.stop();
+      await container.remove();
     });
 
   } catch (error) {

@@ -67,9 +67,9 @@ const signIn = asyncHandler(async (req: Request, res: Response) => {
 })
 
 const logOut = asyncHandler(async (req: Request, res: Response) => {
-  const { userId } = req.params
+  const { userId } = req.body
 
-  const user = await User.findByIdAndUpdate(userId,{session: null})
+  const user = await User.findByIdAndUpdate({_id: userId},{$set: {session: ""}})
 
   if (!user) {
     throw new ApiError(500, "Unable to logout")

@@ -24,7 +24,7 @@ function traverseForFile(rootPath: string, fol: IFolder, fileId: string): string
 }
 
 function traverseForFolder(rootPath: string, fol: IFolder, folderId: string): string | null {
-  if (!(fol.id === folderId)) {
+  if (!(fol.id == folderId)) {
     fol.childFolder.map((f: IFolder) => {
       const newPath = path.join(rootPath, f.name)
       return traverseForFolder(newPath, f, folderId)
@@ -44,7 +44,7 @@ const readFile = asyncHandler((req: Request, res: Response) => {
     throw new ApiError(500, "Volume Location is missing in env variables")
   }
 
-  const filePath = traverseForFile(basePath, obj, fileId)
+  const filePath = traverseForFile(`${basePath}/${volumedb.volumeName}`, obj, fileId)
   if (!filePath) {
     throw new ApiError(400, "No such file exists")
   }
@@ -70,7 +70,7 @@ const deleteFile = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(500, "Volume Location is missing in env variables")
   }
 
-  const filePath = traverseForFile(basePath, obj, fileId)
+  const filePath = traverseForFile(`${basePath}/${volumedb.volumeName}`, obj, fileId)
   if (!filePath) {
     throw new ApiError(400, "No such file exists")
   }
@@ -83,7 +83,7 @@ const deleteFile = asyncHandler(async (req: Request, res: Response) => {
     childFiles: [],
     childFolder: []
   }
-  folderRead(basePath, result)
+  folderRead(`${basePath}/${volumedb.volumeName}`, result)
 
   await Volume.updateOne(
     {
@@ -111,7 +111,7 @@ const updateFile = asyncHandler((req: Request, res: Response) => {
     throw new ApiError(500, "Volume Location is missing in env variables")
   }
 
-  const filePath = traverseForFile(basePath, obj, fileId)
+  const filePath = traverseForFile(`${basePath}/${volumedb.volumeName}`, obj, fileId)
   if (!filePath) {
     throw new ApiError(400, "No such file exists")
   }
@@ -137,9 +137,9 @@ const createFile = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(500, "Volume Location is missing in env variables")
   }
 
-  const folderPath = traverseForFolder(basePath, obj, folderId)
+  const folderPath = traverseForFolder(`${basePath}/${volumedb.volumeName}`, obj, folderId)
   if (!folderPath) {
-    throw new ApiError(400, "No such file exists")
+    throw new ApiError(400, "No such folder exists")
   }
 
   fs.writeFileSync(path.join(folderPath, file), "");
@@ -150,7 +150,7 @@ const createFile = asyncHandler(async (req: Request, res: Response) => {
     childFiles: [],
     childFolder: []
   }
-  folderRead(basePath, result)
+  folderRead(`${basePath}/${volumedb.volumeName}`, result)
 
   await Volume.updateOne(
     {
@@ -178,7 +178,7 @@ const createFolder = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(500, "Volume Location is missing in env variables")
   }
 
-  const folderPath = traverseForFolder(basePath, obj, folderId)
+  const folderPath = traverseForFolder(`${basePath}/${volumedb.volumeName}`, obj, folderId)
   if (!folderPath) {
     throw new ApiError(400, "No such file exists")
   }
@@ -191,7 +191,7 @@ const createFolder = asyncHandler(async (req: Request, res: Response) => {
     childFiles: [],
     childFolder: []
   }
-  folderRead(basePath, result)
+  folderRead(`${basePath}/${volumedb.volumeName}`, result)
 
   await Volume.updateOne(
     {
@@ -219,7 +219,7 @@ const deleteFolder = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(500, "Volume Location is missing in env variables")
   }
 
-  const folderPath = traverseForFolder(basePath, obj, folderId)
+  const folderPath = traverseForFolder(`${basePath}/${volumedb.volumeName}`, obj, folderId)
   if (!folderPath) {
     throw new ApiError(400, "No such file exists")
   }
@@ -232,7 +232,7 @@ const deleteFolder = asyncHandler(async (req: Request, res: Response) => {
     childFiles: [],
     childFolder: []
   }
-  folderRead(basePath, result)
+  folderRead(`${basePath}/${volumedb.volumeName}`, result)
 
   await Volume.updateOne(
     {

@@ -18,7 +18,7 @@ export const setVolume = asyncHandler(async (req: Request, res: Response, next: 
       throw new ApiError(400, "Invalid volume name");
     }
 
-    req.body.volumedb = volumedb;
+    req.body.volumedb = volumedb[0];
     next();
   } catch (error: any) {
     throw new ApiError(401, error?.message || "Invalid Volume Name");

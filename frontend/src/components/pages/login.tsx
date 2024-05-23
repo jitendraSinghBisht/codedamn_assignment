@@ -64,6 +64,7 @@ export function Login() {
     }
     if ('data' in jres) {
       dispatch(loginUser({
+        userId: jres.data.userId,
         username: jres.data.username,
         email: jres.data.email
       }))
@@ -98,6 +99,7 @@ export function Login() {
     }
     if ('data' in jres) {
       dispatch(loginUser({
+        userId: jres.data._id,
         username: jres.data.username,
         email: jres.data.email
       }))
