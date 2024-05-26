@@ -13,29 +13,47 @@ interface IFolder {
   childFolder: Array<IFolder>;
 }
 
-function folderRead(dirPath: string, obj: IFolder) {
+function folderRead(dirPath: string, obj?: IFolder) {
   const elements = fs.readdirSync(dirPath);
 
-  elements.map((el) => {
-    const elPath = path.join(dirPath, el)
+  if (!obj) {
+    obj = {
+      id: uuid(),
+      name: path.basename(dirPath),
+      childFiles: [],
+      childFolder: []
+    };
+  }
+
+  elements.forEach((el) => {
+    const elPath = path.join(dirPath, el);
     if (fs.lstatSync(elPath).isDirectory()) {
-      const elObj: IFolder = {
+      const existingFolder = obj.childFolder.find(folder => folder.name === el);
+      const elObj: IFolder = existingFolder || {
         id: uuid(),
         name: el,
         childFiles: [],
         childFolder: []
+      };
+      folderRead(elPath, elObj);
+      if (!existingFolder) {
+        obj.childFolder.push(elObj);
       }
-      folderRead(elPath, elObj)
-      obj.childFolder.push(elObj)
     } else {
-      const elObj: IFile = {
+      const existingFile = obj?.childFiles.find(file => file.name === el);
+      const elObj: IFile = existingFile || {
         id: uuid(),
         name: el
+      };
+      if (!existingFile) {
+        obj.childFiles.push(elObj);
       }
-      obj.childFiles.push(elObj)
     }
-  })
+  });
+
+  return obj;
 }
+
 
 export default folderRead
 export type { IFile, IFolder }

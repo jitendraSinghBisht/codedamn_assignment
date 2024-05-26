@@ -15,32 +15,29 @@ import { userData } from "../store/slice/user.slice";
 import { useEffect } from "react";
 import FolderView from "../folderview/folderview";
 import { IApiError, IApiResponse } from "@/types";
-import env from "@/conf";
+import axios from "axios";
+import { folderData } from "../store/slice/folder.slice";
 
 export function Playground() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const folder = useSelector(folderData);
   const user = useSelector(userData);
 
   async function logout() {
-    const response = await fetch(`${env.url}/api/user/log-out`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "userId": user.userId,
-      }),
-    });
-    const jres: IApiResponse | IApiError = await response.json();
-    if (jres.statusCode >= 400) {
-      alert("Unable to logout... \nTry again later....");
-      return;
-    }
-    if (jres.success) {
+    try {
+      const response = await axios.post(`/user/log-out`, {
+        userId: user.userId,
+      });
+      const jres: IApiResponse | IApiError = await response.data;
+      if (!jres.success) {
+        alert("Unable to logout... \nTry again later....");
+        return;
+      }
       dispatch({ type: "RESET" });
       navigate("/login");
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -58,7 +55,7 @@ export function Playground() {
             <Binary className="size-5 fill-foreground" />
           </Button>
         </div>
-        <FolderView />
+        <FolderView folder={folder} key={folder.id} />
       </aside>
       <div className="flex flex-col w-full h-full">
         <header className="sticky top-0 bg-gray-950 z-10 flex h-[57px] items-center gap-[45%] border-b px-4 justify-end">

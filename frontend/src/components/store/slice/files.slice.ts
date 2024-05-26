@@ -8,7 +8,7 @@ interface Ifile {
 }
 
 const instate: Ifile = {
-    curFile: "",
+    curFile: "start.md",
     curFileId: "",
     curFileData: "# Welcome to the playground\n## Enjoy your code",
   }

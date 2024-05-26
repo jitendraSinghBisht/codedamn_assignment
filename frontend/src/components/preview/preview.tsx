@@ -4,7 +4,7 @@ export default function Preview() {
   const [url, setUrl] = useState<string>("http://example.org/");
 
   function chngUrl(e: React.ChangeEvent<HTMLInputElement>) {
-    setUrl(e.target.value)
+    setUrl(e.target.value);
   }
 
   return (

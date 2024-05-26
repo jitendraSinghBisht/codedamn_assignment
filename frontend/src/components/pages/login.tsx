@@ -10,12 +10,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../store/slice/user.slice";
 import type { IApiError, IApiResponse, IUser } from "@/types";
 import { useNavigate } from "react-router-dom";
-import env from "@/conf";
+import axios from "axios";
 
 export function Login() {
   const dispatch = useDispatch();
@@ -33,28 +33,17 @@ export function Login() {
     }));
   }
 
-  async function login() {
-    if (!user.email || !user.password) {
-      alert("Email and Password are required for login");
-      return;
-    }
-    const response = await fetch(`${env.url}/api/user/sign-in`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "email": user.email,
-        "password": user.password,
-      }),
-    });
-    const jres: IApiResponse | IApiError = await response.json();
-    if (jres.statusCode >= 400) {
-      alert("Unable to login... \nTry again later....");
-      return;
-    }
-    if ("data" in jres) {
+  useEffect(() => {
+    authenticate();
+  });
+
+  async function authenticate() {
+    try {
+      const response = await axios.get(`/user/authenticate`);
+      const jres: IApiResponse | IApiError = await response.data;
+      if (!jres.success) {
+        return;
+      }
       dispatch(
         loginUser({
           userId: jres.data.userId,
@@ -63,6 +52,37 @@ export function Login() {
         })
       );
       navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function login() {
+    if (!user.email || !user.password) {
+      alert("Email and Password are required for login");
+      return;
+    }
+    try {
+      const response = await axios.post(`/user/sign-in`, {
+        email: user.email,
+        password: user.password,
+      });
+      const jres: IApiResponse | IApiError = await response.data;
+      if (!jres.success) {
+        alert("Unable to login... \nTry again later....");
+        return;
+      }
+      dispatch(
+        loginUser({
+          userId: jres.data.userId,
+          username: jres.data.username,
+          email: jres.data.email,
+        })
+      );
+      navigate("/");
+    } catch (error) {
+      alert("No account found...\nSign up...");
+      console.log(error);
     }
   }
 
@@ -71,24 +91,17 @@ export function Login() {
       alert("Name, Email and Password are required for signup");
       return;
     }
-    const response = await fetch(`${env.url}/api/user/sign-up`, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        "username": user.username,
-        "email": user.email,
-        "password": user.password,
-      }),
-    });
-    const jres: IApiResponse | IApiError = await response.json();
-    if (jres.statusCode >= 400) {
-      alert("Unable to login... \nTry again later....");
-      return;
-    }
-    if ("data" in jres) {
+    try {
+      const response = await axios.post(`/user/sign-up`, {
+        username: user.username,
+        email: user.email,
+        password: user.password,
+      });
+      const jres: IApiResponse | IApiError = await response.data;
+      if (!jres.success) {
+        alert("Unable to create account... \nTry again later....");
+        return;
+      }
       dispatch(
         loginUser({
           userId: jres.data._id,
@@ -96,7 +109,11 @@ export function Login() {
           email: jres.data.email,
         })
       );
-      navigate("/");
+      alert("Account Created... \n Login to continue");
+      navigate("/login");
+    } catch (error) {
+      alert("Email Id is already in use try another or login...");
+      console.log(error);
     }
   }
 

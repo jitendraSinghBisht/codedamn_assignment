@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express"
+import { Request, Response } from "express"
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -67,9 +67,9 @@ const signIn = asyncHandler(async (req: Request, res: Response) => {
 })
 
 const logOut = asyncHandler(async (req: Request, res: Response) => {
-  const { userId } = req.body
+  const { user } = req.body
 
-  const user = await User.findByIdAndUpdate({_id: userId},{$set: {session: ""}})
+  await User.findByIdAndUpdate({_id: user._id},{$set: {session: ""}})
 
   if (!user) {
     throw new ApiError(500, "Unable to logout")
@@ -81,4 +81,16 @@ const logOut = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200,{},"Logged out successfully"))
 })
 
-export { signUp, signIn, logOut }
+const authenticate = asyncHandler(async (req: Request, res: Response) => {
+  const { user } = req.body
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, {
+      userId: user._id,
+      username: user.username,
+      email: user.email
+    }, "Successfully logged in"))
+})
+
+export { signUp, signIn, logOut, authenticate }

@@ -7,6 +7,6 @@ const router = Router();
 router.use(verifyUser);
 router.route("/create").post(createContainer);
 router.route("/get-old-volumes").get(getOldVolumes);
-router.route("/get-root-structure").get(getFolderStructure);
+router.route("/get-root-structure/:volumeName").get(getFolderStructure);
 
 export default router;

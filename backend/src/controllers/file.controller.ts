@@ -10,28 +10,30 @@ import { UserDocument } from '../models/user.model.js';
 import folderRead, { IFolder, IFile } from '../utils/folderStruct.js';
 
 function traverseForFile(rootPath: string, fol: IFolder, fileId: string): string | null {
-  const fileFetch = fol.childFiles.filter((f: IFile) => f.id == fileId)
+  const fileFetch = fol.childFiles.filter(({id}) => {console.log(id,fileId);return id == fileId})
+
+console.log(fileFetch)
 
   if (!fileFetch.length) {
-    fol.childFolder.map((f: IFolder) => {
-      const newPath = path.join(rootPath, f.name)
-      return traverseForFile(newPath, f, fileId)
-    })
-    return null
+    for (const childFolder of fol.childFolder) {
+      const newPath = path.join(rootPath, childFolder.name);
+      const foundPath = traverseForFile(newPath, childFolder, fileId);
+      if (foundPath) return foundPath;
+    }
+    return null;
   } else {
-    return path.join(rootPath, fileFetch[0].name)
+    return path.join(rootPath, fileFetch[0].name);
   }
 }
 
-function traverseForFolder(rootPath: string, fol: IFolder, folderId: string): string | null {
-  if (!(fol.id == folderId)) {
-    fol.childFolder.map((f: IFolder) => {
-      const newPath = path.join(rootPath, f.name)
-      return traverseForFolder(newPath, f, folderId)
-    })
+function traverseForFolder(rootPath: string, fol: IFolder, folderId: string): string | undefined {
+  if (fol.id == folderId) return rootPath;
+  for (const childFolder of fol.childFolder) { 
+    const newPath = path.join(rootPath, childFolder.name); 
+    const foundPath = traverseForFolder(newPath, childFolder, folderId); 
+    if (foundPath) return foundPath;
   }
-
-  return rootPath
+  return undefined;
 }
 
 const readFile = asyncHandler((req: Request, res: Response) => {
@@ -49,7 +51,7 @@ const readFile = asyncHandler((req: Request, res: Response) => {
     throw new ApiError(400, "No such file exists")
   }
 
-  const data = fs.readFileSync(filePath);
+  const data = fs.readFileSync(filePath, 'utf8');
 
   return res
     .status(200)
@@ -77,13 +79,7 @@ const deleteFile = asyncHandler(async (req: Request, res: Response) => {
 
   fs.unlinkSync(filePath);
 
-  const result: IFolder = {
-    id: uuid(),
-    name: "root",
-    childFiles: [],
-    childFolder: []
-  }
-  folderRead(`${basePath}/${volumedb.volumeName}`, result)
+  folderRead(`${basePath}/${volumedb.volumeName}`, obj)
 
   await Volume.updateOne(
     {
@@ -92,13 +88,13 @@ const deleteFile = asyncHandler(async (req: Request, res: Response) => {
     },
     {
       $set: {
-        volumeStructure: JSON.stringify(result)
+        volumeStructure: JSON.stringify(obj)
       }
     });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, result, "File deleted successfully"))
+    .json(new ApiResponse(200, obj, "File deleted successfully"))
 })
 
 const updateFile = asyncHandler((req: Request, res: Response) => {
@@ -144,13 +140,8 @@ const createFile = asyncHandler(async (req: Request, res: Response) => {
 
   fs.writeFileSync(path.join(folderPath, file), "");
 
-  const result: IFolder = {
-    id: uuid(),
-    name: "root",
-    childFiles: [],
-    childFolder: []
-  }
-  folderRead(`${basePath}/${volumedb.volumeName}`, result)
+
+  folderRead(`${basePath}/${volumedb.volumeName}`, obj)
 
   await Volume.updateOne(
     {
@@ -159,13 +150,13 @@ const createFile = asyncHandler(async (req: Request, res: Response) => {
     },
     {
       $set: {
-        volumeStructure: JSON.stringify(result)
+        volumeStructure: JSON.stringify(obj)
       }
     });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, result, "File created successfully"))
+    .json(new ApiResponse(200, obj, "File created successfully"))
 })
 
 const createFolder = asyncHandler(async (req: Request, res: Response) => {
@@ -185,13 +176,8 @@ const createFolder = asyncHandler(async (req: Request, res: Response) => {
 
   fs.mkdirSync(path.join(folderPath, folder));
 
-  const result: IFolder = {
-    id: uuid(),
-    name: "root",
-    childFiles: [],
-    childFolder: []
-  }
-  folderRead(`${basePath}/${volumedb.volumeName}`, result)
+
+  folderRead(`${basePath}/${volumedb.volumeName}`, obj)
 
   await Volume.updateOne(
     {
@@ -200,13 +186,13 @@ const createFolder = asyncHandler(async (req: Request, res: Response) => {
     },
     {
       $set: {
-        volumeStructure: JSON.stringify(result)
+        volumeStructure: JSON.stringify(obj)
       }
     });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, result, "Folder created successfully"))
+    .json(new ApiResponse(200, obj, "Folder created successfully"))
 })
 
 const deleteFolder = asyncHandler(async (req: Request, res: Response) => {
@@ -226,13 +212,8 @@ const deleteFolder = asyncHandler(async (req: Request, res: Response) => {
 
   fs.rmSync(folderPath, { recursive: true, force: true });
 
-  const result: IFolder = {
-    id: uuid(),
-    name: "root",
-    childFiles: [],
-    childFolder: []
-  }
-  folderRead(`${basePath}/${volumedb.volumeName}`, result)
+
+  folderRead(`${basePath}/${volumedb.volumeName}`, obj)
 
   await Volume.updateOne(
     {
@@ -241,13 +222,13 @@ const deleteFolder = asyncHandler(async (req: Request, res: Response) => {
     },
     {
       $set: {
-        volumeStructure: JSON.stringify(result)
+        volumeStructure: JSON.stringify(obj)
       }
     });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, result, "Folder deleted successfully"))
+    .json(new ApiResponse(200, obj, "Folder deleted successfully"))
 })
 
 export { readFile, deleteFile, updateFile, createFile, createFolder, deleteFolder }

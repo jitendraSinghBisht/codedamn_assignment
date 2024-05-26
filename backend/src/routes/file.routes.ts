@@ -15,11 +15,11 @@ const router = Router()
 router.use(verifyUser);
 router.use(setVolume);
 
-router.route("/read-file/:fileId").get(readFile)
-router.route("/delete-file/:fileId").delete(deleteFile)
+router.route("/read-file/:fileId").post(readFile)
+router.route("/delete-file/:fileId").patch(deleteFile)
 router.route("/update-file/:fileId").patch(updateFile)
 router.route("/create-file/:folderId").post(createFile)
 router.route("/create-folder/:folderId").post(createFolder)
-router.route("/delete-folder/:folderId").delete(deleteFolder)
+router.route("/delete-folder/:folderId").patch(deleteFolder)
 
 export default router

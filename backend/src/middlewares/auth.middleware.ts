@@ -19,7 +19,7 @@ export const verifyUser = asyncHandler(async (req: Request, res: Response, next:
       throw new ApiError(401, "Invalid Session");
     }
 
-    req.body.user = user;
+    req.body.user = user[0];
     next();
   } catch (error: any) {
     throw new ApiError(401, error?.message || "Invalid Access Token");

@@ -42,7 +42,7 @@ const createContainer = asyncHandler(async (req: Request, res: Response) => {
 
   const options = {
     Image: imageName,
-    name: name,
+    name: `${Date.now()}`,
     Volumes: { [`/home/${lang}`]: {} },
     Cmd: ['sh'],
     WorkingDir: `/home/${lang}`,
@@ -85,7 +85,8 @@ const getOldVolumes = asyncHandler(async (req: Request, res: Response) => {
 })
 
 const getFolderStructure = asyncHandler (async (req: Request, res: Response) => {
-  const { user, volumeName }: { user: Document, volumeName: string } = req.body
+  const { user }: { user: Document } = req.body
+  const volumeName: string = req.params.volumeName
 
   if (!volumeName) {
     throw new ApiError(400,"volumeName is required")
@@ -95,13 +96,8 @@ const getFolderStructure = asyncHandler (async (req: Request, res: Response) => 
   if (!basePath) {
     throw new ApiError(500,"Volume Location is missing in env variables")
   }
-  const result: IFolder = {
-    id: uuid(),
-    name: "root",
-    childFiles: [],
-    childFolder: []
-  }
-  folderRead(`${basePath}/${volumeName}`,result)
+
+  const result = folderRead(`${basePath}/${volumeName}`)
 
   await Volume.updateOne(
     {
