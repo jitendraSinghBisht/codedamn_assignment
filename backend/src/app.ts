@@ -4,6 +4,15 @@ import cookieParser from "cookie-parser";
 
 const app = express();
 
+// https://youtu.be/sovAIX4doOE?si=3Wp7ZrKhw6v9Wh6Z
+import session from "express-session";
+app.set("trust proxy", true);
+app.use(session({
+  secret: 'Anything secret',
+  proxy: true,
+  cookie: { secure: true, sameSite: "lax", httpOnly: true }
+}));
+
 app.use(cors({credentials: true, origin: `${process.env.CORS_ORIGIN}`}));
 app.use(express.json());
 app.use(cookieParser());

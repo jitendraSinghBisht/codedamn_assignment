@@ -25,6 +25,9 @@ function folderRead(dirPath: string, obj?: IFolder) {
     };
   }
 
+  obj.childFolder = obj.childFolder.filter(folder => elements.includes(folder.name));
+  obj.childFiles = obj.childFiles.filter(file => elements.includes(file.name));
+
   elements.forEach((el) => {
     const elPath = path.join(dirPath, el);
     if (fs.lstatSync(elPath).isDirectory()) {

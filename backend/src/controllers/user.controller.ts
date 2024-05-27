@@ -56,7 +56,9 @@ const signIn = asyncHandler(async (req: Request, res: Response) => {
       user.session,
       {
         httpOnly: true,
-        secure: true
+        secure: true,
+        maxAge: 60*60*60,
+        sameSite: "none"
       })
     .status(200)
     .json(new ApiResponse(200, {
@@ -86,11 +88,7 @@ const authenticate = asyncHandler(async (req: Request, res: Response) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, {
-      userId: user._id,
-      username: user.username,
-      email: user.email
-    }, "Successfully logged in"))
+    .json(new ApiResponse(200, user, "Successfully logged in"))
 })
 
 export { signUp, signIn, logOut, authenticate }
