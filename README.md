@@ -49,7 +49,7 @@ This project folows a simple and most common work flow i.e. signup/signin select
      + Start with the older projects which were created ealier.
    + The user can select the name of the project and also have the section to choose the framework.
    + In this project the project name should be unique whenever the project is being created.(Can be improved for actual company production)\
-![login](./assets/Screenshot%20from%202024-05-28%2002-10-22.png)
+![login](./assets/Screenshot%20from%202024-05-28%2002-34-29.png)
 3. **Playground**
    + This project do not focuses much on the ui part of the playground. Has a simple layout for demontration.
    + It has the 3 resizable areas -> Editor, Terminal and Preview.
