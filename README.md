@@ -2,6 +2,9 @@
 
 > [!IMPORTANT]
 > This is just a **Prototype Project** which has a lot of scope for improvements in UI and in management.
+> [!CAUTION]
+> No compiler or interpreter is installed.
+> An ubuntu machine is spinned up and needed to install and run commands/files through Terminal.
 
 ## Table of Content
 
